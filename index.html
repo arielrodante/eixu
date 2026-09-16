@@ -1,0 +1,577 @@
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#171019">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ritual Diário">
+<style>
+  :root{
+    --ink:#f4ecd8;
+    --ink-dim:#c9bfae;
+    --void:#171019;
+    --void-2:#100c17;
+    --pink:#f3c6d6;
+    --pink-dim:#caa2b0;
+    --olive:#5c6b3a;
+    --olive-bright:#8ca357;
+    --line:#3a2f3e;
+    --done:#7d8f52;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(ellipse at 20% 0%, #241a29 0%, var(--void) 45%, var(--void-2) 100%);
+    color:var(--ink);
+    font-family:'Work Sans', -apple-system, sans-serif;
+    padding:28px 18px 60px;
+    min-height:100vh;
+  }
+  h1,h2,.serif{
+    font-family:'Cormorant Garamond', Georgia, serif;
+  }
+  .wrap{max-width:480px;margin:0 auto;}
+  header{text-align:center;margin-bottom:28px;}
+  header .eyebrow{
+    font-size:12px;
+    letter-spacing:0.14em;
+    color:var(--pink-dim);
+    margin-bottom:6px;
+  }
+  h1{
+    font-size:34px;
+    font-weight:600;
+    margin:0 0 4px;
+    color:var(--pink);
+    letter-spacing:0.01em;
+  }
+  header .date{
+    color:var(--ink-dim);
+    font-size:14px;
+    text-transform:capitalize;
+  }
+  .progress-ring{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin-top:16px;
+    font-size:13px;
+    color:var(--ink-dim);
+  }
+  .progress-track{
+    flex:1;
+    max-width:220px;
+    height:3px;
+    background:var(--line);
+    position:relative;
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--olive-bright),var(--pink));
+    width:0%;
+    transition:width .4s ease;
+  }
+
+  section{
+    margin-bottom:22px;
+    border-left:2px solid var(--olive);
+    padding-left:16px;
+    position:relative;
+  }
+  section .num{
+    position:absolute;
+    left:-11px;
+    top:2px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:var(--void-2);
+    border:2px solid var(--olive);
+    font-size:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--olive-bright);
+    font-family:'Work Sans',sans-serif;
+  }
+  section.complete .num{background:var(--olive);border-color:var(--olive-bright);color:var(--void);}
+  section h2{
+    font-size:20px;
+    margin:0 0 10px;
+    color:var(--ink);
+    font-weight:600;
+  }
+  section .sub{
+    font-size:12px;
+    color:var(--ink-dim);
+    margin:-6px 0 12px;
+  }
+
+  .item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+    user-select:none;
+  }
+  .item:last-child{border-bottom:none;}
+  .box{
+    width:18px;height:18px;flex:none;
+    border:1.5px solid var(--pink-dim);
+    border-radius:4px;
+    position:relative;
+  }
+  .item.checked .box{background:var(--done);border-color:var(--olive-bright);}
+  .item.checked .box::after{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 50% 45%, transparent 0 3px, var(--void-2) 3px 3.4px, transparent 3.4px);
+  }
+  .item.checked span{color:var(--ink-dim);text-decoration:line-through;text-decoration-color:var(--olive-bright);}
+  .item span{font-size:15px;}
+
+  textarea, input[type=text]{
+    width:100%;
+    background:var(--void-2);
+    border:1px solid var(--line);
+    color:var(--ink);
+    border-radius:6px;
+    padding:8px 10px;
+    font-family:inherit;
+    font-size:14px;
+    resize:none;
+  }
+  textarea::placeholder,input::placeholder{color:#655a68;}
+
+  .toggle-row{display:flex;gap:8px;margin-bottom:10px;}
+  .toggle-row button{
+    flex:1;
+    padding:8px;
+    background:var(--void-2);
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    border-radius:6px;
+    font-family:'Work Sans',sans-serif;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .toggle-row button.active{
+    background:var(--olive);
+    color:var(--void);
+    border-color:var(--olive-bright);
+  }
+
+  .timer-box{
+    text-align:center;
+    padding:18px 0 6px;
+  }
+  .timer-display{
+    font-family:'Cormorant Garamond',serif;
+    font-size:52px;
+    color:var(--pink);
+    letter-spacing:0.03em;
+    margin-bottom:6px;
+  }
+  .timer-label{font-size:12px;color:var(--ink-dim);margin-bottom:14px;}
+  .timer-controls{display:flex;gap:8px;justify-content:center;margin-bottom:8px;}
+  .timer-controls button{
+    padding:9px 16px;
+    border-radius:20px;
+    border:1px solid var(--olive-bright);
+    background:transparent;
+    color:var(--olive-bright);
+    font-size:13px;
+    cursor:pointer;
+    font-family:'Work Sans',sans-serif;
+  }
+  .timer-controls button.primary{
+    background:var(--olive-bright);
+    color:var(--void);
+  }
+  .session-count{
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-dim);
+    margin-top:8px;
+  }
+  .session-count b{color:var(--pink);}
+
+  .compromisso-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:7px 0;
+  }
+  .compromisso-row .box{cursor:pointer;}
+  .compromisso-row .box.checked{background:var(--done);border-color:var(--olive-bright);}
+  .compromisso-row .box.checked::after{
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 45%, transparent 0 3px, var(--void-2) 3px 3.4px, transparent 3.4px);
+  }
+  .compromisso-row input[type=text]{flex:1;}
+
+  input[type=text].horario-input{
+    width:6ch;
+    flex:none;
+    padding:5px 6px;
+    font-size:13px;
+    text-align:center;
+  }
+
+  select{
+    width:100%;
+    background:var(--void-2);
+    border:1px solid var(--line);
+    color:var(--ink);
+    padding:8px;
+    border-radius:6px;
+    font-size:13px;
+    margin-bottom:10px;
+  }
+
+  footer{
+    text-align:center;
+    color:#544a58;
+    font-size:11px;
+    margin-top:30px;
+    letter-spacing:0.05em;
+  }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">painel do dia</div>
+    <h1>Ritual Diário</h1>
+    <div class="date" id="dateLabel"></div>
+    <div class="progress-ring">
+      <span id="progressLabel">0/6</span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </header>
+
+  <section id="sec2">
+    <div class="num">•</div>
+    <h2>Corpo</h2>
+    <div class="sub">alimentação, sono e higiene</div>
+    <div class="item" data-key="refeicoes" onclick="toggleItem(this)"><div class="box"></div><span>Refeições feitas</span></div>
+    <div class="item" data-key="sono" onclick="toggleItem(this)"><div class="box"></div><span>Sono/descanso em dia</span></div>
+    <div class="item" data-key="higiene" onclick="toggleItem(this)"><div class="box"></div><span>Higiene básica (banho, dentes, skincare)</span></div>
+  </section>
+
+  <section id="sec1">
+    <div class="num">•</div>
+    <h2>Compromisso fixo</h2>
+    <div class="sub">quantos compromissos fixos hoje?</div>
+    <div class="toggle-row" id="compromissoCountRow" style="flex-wrap:wrap;gap:6px;">
+      <button onclick="setCompromissoCount(0)">0</button>
+      <button onclick="setCompromissoCount(1)">1</button>
+      <button onclick="setCompromissoCount(2)">2</button>
+      <button onclick="setCompromissoCount(3)">3</button>
+      <button onclick="setCompromissoCount(4)">4</button>
+      <button onclick="setCompromissoCount(5)">5</button>
+    </div>
+    <div id="compromissoList"></div>
+  </section>
+
+  <section id="sec3">
+    <div class="num">•</div>
+    <h2>Movimento</h2>
+
+    <div class="item" id="alongamentoItem" data-key="alongamento">
+      <div class="box" onclick="toggleItem(document.getElementById('alongamentoItem'))"></div>
+      <input type="text" id="alongamentoHorario" class="horario-input" placeholder="11h" onchange="saveHorario('alongamentoHorario')">
+      <span onclick="toggleItem(document.getElementById('alongamentoItem'))">Alongamento</span>
+    </div>
+
+    <div class="item" id="cardioItem" data-key="cardio">
+      <div class="box" onclick="toggleItem(document.getElementById('cardioItem'))"></div>
+      <input type="text" id="cardioHorario" class="horario-input" placeholder="16h" onchange="saveHorario('cardioHorario')">
+      <span onclick="toggleItem(document.getElementById('cardioItem'))">Cardio</span>
+    </div>
+
+    <div class="sub" style="margin-top:12px;">vou ao SESC hoje?</div>
+    <div class="toggle-row">
+      <button id="btnSescSim" onclick="setSescHoje(true)">Sim</button>
+      <button id="btnSescNao" onclick="setSescHoje(false)">Não</button>
+    </div>
+    <div id="sescDetails" style="display:none;">
+      <div class="item" id="sescItem" data-key="sesc">
+        <div class="box" onclick="toggleItem(document.getElementById('sescItem'))"></div>
+        <input type="text" id="sescHorario" class="horario-input" placeholder="19h" onchange="saveHorario('sescHorario')">
+        <span onclick="toggleItem(document.getElementById('sescItem'))">Treino concluído</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="secTerapia">
+    <div class="num">•</div>
+    <h2>Terapia</h2>
+    <div class="sub">tem terapia hoje?</div>
+    <div class="toggle-row">
+      <button id="btnTerapiaSim" onclick="setTerapiaHoje(true)">Sim</button>
+      <button id="btnTerapiaNao" onclick="setTerapiaHoje(false)">Não</button>
+    </div>
+    <div id="terapiaDetails" style="display:none;">
+      <div class="item" id="terapiaItem" data-key="terapia">
+        <div class="box" onclick="toggleItem(document.getElementById('terapiaItem'))"></div>
+        <input type="text" id="terapiaHorario" class="horario-input" placeholder="17h" onchange="saveTerapiaHorario()">
+        <span onclick="toggleItem(document.getElementById('terapiaItem'))">Sessão concluída</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="sec4">
+    <div class="num">•</div>
+    <h2>Bloco de foco</h2>
+    <div class="sub">emprego tem prioridade agora — alterne pra não hiperfocar</div>
+    <div class="toggle-row">
+      <button id="btnEmprego" class="active" onclick="setFocus('emprego')">Emprego</button>
+      <button id="btnEstudo" onclick="setFocus('estudo')">Estudo</button>
+    </div>
+    <div class="timer-box">
+      <div class="timer-display" id="timerDisplay">30:00</div>
+      <div class="timer-label" id="timerLabel">foco em Emprego</div>
+      <div class="timer-controls">
+        <button onclick="adjustTimer(-5)">-5</button>
+        <button class="primary" id="startBtn" onclick="toggleTimer()">Iniciar</button>
+        <button onclick="adjustTimer(5)">+5</button>
+      </div>
+      <div class="session-count">Hoje: <b id="empregoCount">0</b> sessões emprego · <b id="estudoCount">0</b> sessões estudo</div>
+    </div>
+  </section>
+
+  <section id="sec5">
+    <div class="num">•</div>
+    <h2>Lazer &amp; casa</h2>
+    <div class="sub">fim do dia — paz, bagunça e projetos pessoais</div>
+    <div class="item" data-key="lazer" onclick="toggleItem(this)"><div class="box"></div><span>Momento de paz / hobby</span></div>
+    <div class="item" data-key="casa" onclick="toggleItem(this)"><div class="box"></div><span>Arrumar/faxinar algo pequeno</span></div>
+  </section>
+
+  <footer>rosa-bebê &amp; verde militar · salvo automaticamente</footer>
+</div>
+
+<script>
+let state = { items:{}, note:"", focus:"emprego", empregoCount:0, estudoCount:0 };
+let todayKey = "";
+let timerSeconds = 30*60;
+let timerDefault = 30*60;
+let timerRunning = false;
+let timerInterval = null;
+
+function fmtDate(d){
+  return d.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'});
+}
+
+async function loadState(){
+  const d = new Date();
+  todayKey = 'ritual:' + d.toISOString().slice(0,10);
+  document.getElementById('dateLabel').textContent = fmtDate(d);
+  try{
+    const raw = localStorage.getItem(todayKey);
+    if(raw){
+      state = JSON.parse(raw);
+    } else {
+      const day = d.getDay(); // 0=dom,1=seg,2=ter,3=qua,4=qui,5=sex,6=sab
+      const sugereTerapia = (day===1 || day===3);
+      state.terapiaHoje = sugereTerapia;
+      state.terapiaHorario = sugereTerapia ? '17h' : '';
+    }
+  }catch(e){ /* localStorage indisponível ou vazio */ }
+  applyState();
+}
+
+function setTerapiaHoje(has, silent){
+  state.terapiaHoje = has;
+  document.getElementById('btnTerapiaSim').classList.toggle('active', has);
+  document.getElementById('btnTerapiaNao').classList.toggle('active', !has);
+  document.getElementById('terapiaDetails').style.display = has ? 'block' : 'none';
+  updateProgress();
+  if(!silent) persist();
+}
+
+function saveTerapiaHorario(){
+  state.terapiaHorario = document.getElementById('terapiaHorario').value;
+  persist();
+}
+
+function saveHorario(fieldId){
+  state[fieldId] = document.getElementById(fieldId).value;
+  persist();
+}
+
+function setSescHoje(has, silent){
+  state.sescHoje = has;
+  document.getElementById('btnSescSim').classList.toggle('active', has);
+  document.getElementById('btnSescNao').classList.toggle('active', !has);
+  document.getElementById('sescDetails').style.display = has ? 'block' : 'none';
+  updateProgress();
+  if(!silent) persist();
+}
+
+function applyState(){
+  document.querySelectorAll('.item').forEach(el=>{
+    const k = el.dataset.key;
+    if(state.items[k]){ el.classList.add('checked'); } else { el.classList.remove('checked'); }
+  });
+  setFocus(state.focus || 'emprego', true);
+  setTerapiaHoje(state.terapiaHoje || false, true);
+  document.getElementById('terapiaHorario').value = state.terapiaHorario || '';
+  setSescHoje(state.sescHoje || false, true);
+  document.getElementById('sescHorario').value = state.sescHorario || '';
+  document.getElementById('alongamentoHorario').value = state.alongamentoHorario || '';
+  document.getElementById('cardioHorario').value = state.cardioHorario || '';
+  setCompromissoCount(state.compromissoCount || 0);
+  document.getElementById('empregoCount').textContent = state.empregoCount || 0;
+  document.getElementById('estudoCount').textContent = state.estudoCount || 0;
+  updateProgress();
+}
+
+async function persist(){
+  try{ localStorage.setItem(todayKey, JSON.stringify(state)); }
+  catch(e){ console.error('localStorage indisponível', e); }
+}
+
+function toggleItem(el){
+  const k = el.dataset.key;
+  state.items[k] = !state.items[k];
+  el.classList.toggle('checked');
+  updateProgress();
+  persist();
+}
+
+function saveNote(){
+  state.note = document.getElementById('compromissoNota').value;
+  persist();
+}
+
+function updateProgress(){
+  const visibleItems = [...document.querySelectorAll('.item[data-key]')].filter(el=>el.offsetParent !== null);
+  const compromissos = state.compromissoList || [];
+  const total = visibleItems.length + compromissos.length;
+  const doneItems = visibleItems.filter(el=>state.items[el.dataset.key]).length;
+  const doneCompromissos = compromissos.filter(c=>c.done).length;
+  const done = doneItems + doneCompromissos;
+  document.getElementById('progressLabel').textContent = done + '/' + total;
+  document.getElementById('progressFill').style.width = (total ? (done/total*100) : 0) + '%';
+
+  document.querySelectorAll('section').forEach(sec=>{
+    if(sec.id === 'sec1'){
+      sec.classList.toggle('complete', compromissos.length>0 && compromissos.every(c=>c.done));
+      return;
+    }
+    const items = [...sec.querySelectorAll('.item[data-key]')].filter(el=>el.offsetParent !== null);
+    if(items.length===0) return;
+    const allChecked = items.every(i=>state.items[i.dataset.key]);
+    sec.classList.toggle('complete', allChecked);
+  });
+}
+
+function setFocus(f, silent){
+  state.focus = f;
+  document.getElementById('btnEmprego').classList.toggle('active', f==='emprego');
+  document.getElementById('btnEstudo').classList.toggle('active', f==='estudo');
+  document.getElementById('timerLabel').textContent = 'foco em ' + (f==='emprego' ? 'Emprego' : 'Estudo');
+  if(!silent) persist();
+}
+
+function updateTimerDisplay(){
+  const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
+  const s = (timerSeconds%60).toString().padStart(2,'0');
+  document.getElementById('timerDisplay').textContent = m+':'+s;
+}
+
+function adjustTimer(mins){
+  if(timerRunning) return;
+  timerDefault = Math.max(5, timerDefault/60 + mins) * 60;
+  timerSeconds = timerDefault;
+  updateTimerDisplay();
+}
+
+function toggleTimer(){
+  const btn = document.getElementById('startBtn');
+  if(timerRunning){
+    clearInterval(timerInterval);
+    timerRunning = false;
+    btn.textContent = 'Continuar';
+  } else {
+    timerRunning = true;
+    btn.textContent = 'Pausar';
+    timerInterval = setInterval(()=>{
+      timerSeconds--;
+      updateTimerDisplay();
+      if(timerSeconds<=0){
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = 'Iniciar';
+        if(state.focus==='emprego'){ state.empregoCount = (state.empregoCount||0)+1; document.getElementById('empregoCount').textContent = state.empregoCount; }
+        else { state.estudoCount = (state.estudoCount||0)+1; document.getElementById('estudoCount').textContent = state.estudoCount; }
+        timerSeconds = timerDefault;
+        updateTimerDisplay();
+        persist();
+      }
+    }, 1000);
+  }
+}
+
+function setCompromissoCount(n){
+  if(!state.compromissoList) state.compromissoList = [];
+  while(state.compromissoList.length < n) state.compromissoList.push({done:false, text:''});
+  state.compromissoList = state.compromissoList.slice(0, n);
+  state.compromissoCount = n;
+  renderCompromissoButtons();
+  renderCompromissoList();
+  updateProgress();
+  persist();
+}
+
+function renderCompromissoButtons(){
+  const row = document.getElementById('compromissoCountRow');
+  [...row.children].forEach((btn,i)=>{
+    btn.classList.toggle('active', (state.compromissoCount||0) === i);
+  });
+}
+
+function renderCompromissoList(){
+  const container = document.getElementById('compromissoList');
+  container.innerHTML = '';
+  (state.compromissoList||[]).forEach((c, i)=>{
+    const row = document.createElement('div');
+    row.className = 'compromisso-row';
+    const box = document.createElement('div');
+    box.className = 'box' + (c.done ? ' checked' : '');
+    box.onclick = ()=>toggleCompromisso(i);
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'compromisso e horário';
+    input.value = c.text || '';
+    input.onchange = (e)=>{ state.compromissoList[i].text = e.target.value; persist(); };
+    row.appendChild(box);
+    row.appendChild(input);
+    container.appendChild(row);
+  });
+}
+
+function toggleCompromisso(i){
+  state.compromissoList[i].done = !state.compromissoList[i].done;
+  renderCompromissoList();
+  updateProgress();
+  persist();
+}
+
+updateTimerDisplay();
+loadState();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(console.error);
+  });
+}
+</script>
