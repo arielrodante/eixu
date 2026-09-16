@@ -1,77 +1,34 @@
 # 🌌 Eixu
 
-> Um ponto de referência para atravessar o dia.
+**Seu dia, no seu eixo.**
 
-**Eixu** é um painel diário pessoal criado para transformar a organização do dia em um ritual simples de acompanhamento, e não apenas em uma lista de tarefas.
-
-O projeto reúne diferentes dimensões da vida cotidiana — corpo, compromissos, movimento, foco, lazer e casa — em um único espaço.
-
-Atualmente, o Eixu está em sua primeira versão experimental (**MVP 0.1**), sendo utilizado como piloto para descobrir, através do uso real, o que funciona, o que precisa mudar e quais caminhos fazem sentido para o futuro do projeto.
-
----
+Eixu é um app de organização e planejamento pessoal diário, criado para ajudar a acompanhar os diferentes aspectos do cotidiano em um só lugar.
 
 ## ✦ Conceito
 
-O nome **Eixu** vem de uma referência às **Plêiades na astronomia Guarani**.
+O Eixu parte de uma ideia simples: o dia pode ser mais fácil de atravessar quando temos alguns pontos de referência.
 
-A escolha do nome parte da ideia de **ciclos, passagem do tempo e observação do céu** como referências para organizar a vida.
+Em vez de transformar o cotidiano em uma lista infinita de tarefas, o Eixu propõe um espaço para acompanhar diferentes partes do dia — compromissos, cuidados, trabalho, estudo, movimento, lazer e casa.
 
-O Eixu não pretende controlar o dia nem transformar tudo em produtividade.
-
-A proposta é oferecer **pontos de referência** para que seja possível se localizar dentro do próprio dia:
-
-- 🌱 cuidar do corpo;
-- 📍 lembrar dos compromissos;
-- 🏃 acompanhar o movimento;
-- 🎯 alternar entre trabalho e estudo;
-- 🏠 cuidar da casa;
-- 🌙 reservar espaço para lazer e descanso.
-
-> **O dia não precisa ser perfeito. Ele precisa ser acompanhado.**
+A proposta não é controlar cada momento, mas ajudar a pessoa a se localizar no próprio dia e acompanhar seu ritmo.
 
 ---
 
-## 🚀 MVP 0.1
+## 🚀 MVP
 
-A primeira versão foi criada como um protótipo funcional para ser utilizado no cotidiano.
+A primeira versão do Eixu foi criada como um protótipo funcional para ser utilizado no cotidiano.
 
-### O painel atualmente inclui:
+O MVP reúne, em um único painel diário, diferentes dimensões da rotina:
 
-- **Corpo**
-  - refeições;
-  - sono e descanso;
-  - higiene básica.
+- 🧍 **Corpo** — cuidados pessoais e acompanhamento básico do dia;
+- 📋 **Compromissos e Tarefas** — compromissos e tarefas que precisam ser lembrados;
+- 🏋️ **Movimento** — acompanhamento de atividades físicas;
+- 🧠 **Terapia** — registro da sessão do dia;
+- ⏱️ **Foco** — períodos dedicados a trabalho ou estudo;
+- 🏡 **Lazer e casa** — espaço para atividades pessoais e tarefas domésticas;
+- 📊 **Progresso diário** — visão do andamento do dia.
 
-- **Compromissos**
-  - quantidade de compromissos fixos;
-  - registro individual;
-  - horário;
-  - conclusão.
-
-- **Movimento**
-  - alongamento;
-  - cardio;
-  - registro de horário;
-  - acompanhamento de treino no SESC.
-
-- **Terapia**
-  - indicação de sessão no dia;
-  - horário;
-  - conclusão.
-
-- **Bloco de foco**
-  - alternância entre Emprego e Estudo;
-  - temporizador;
-  - ajuste da duração;
-  - contagem de sessões.
-
-- **Lazer & casa**
-  - momento de paz / hobby;
-  - pequenas tarefas domésticas.
-
-- **Progresso diário**
-  - acompanhamento das atividades concluídas;
-  - progresso visual por seção.
+O MVP também conta com persistência local dos registros e uma interface pensada para uso rápido durante o dia.
 
 ---
 
@@ -81,27 +38,19 @@ O MVP utiliza o armazenamento local do navegador (`localStorage`) para guardar o
 
 Os registros são organizados por data, permitindo que cada dia tenha seu próprio estado.
 
-### Importante
+### Observação
 
-Nesta versão, os dados são **locais ao dispositivo/navegador**.
-
-Não existe atualmente:
-
-- conta de usuário;
-- banco de dados remoto;
-- sincronização entre dispositivos;
-- sistema de login.
+Em etapas futuras de desenvolvimento, caso o projeto avance nessa direção, a ideia é implementar um sistema de usuário e senha para permitir a sincronização dos dados entre diferentes dispositivos, possivelmente com opção de acesso por conta Google.
 
 ---
 
 ## 🛠️ Tecnologias
 
-O MVP foi desenvolvido utilizando tecnologias web básicas:
+O MVP foi desenvolvido utilizando tecnologias web:
 
 - **HTML**
 - **CSS**
 - **JavaScript**
-- **Web Storage API (`localStorage`)**
 - **PWA / Service Worker**
 
 O projeto foi inicialmente desenvolvido como um único documento HTML e posteriormente estruturado para funcionar como um Progressive Web App.
@@ -110,67 +59,53 @@ O projeto foi inicialmente desenvolvido como um único documento HTML e posterio
 
 ## 📱 PWA
 
-O Eixu está sendo preparado para funcionar como um aplicativo instalável através de tecnologias **Progressive Web App (PWA)**.
+O Eixu funciona como um **Progressive Web App (PWA)**, permitindo que o painel seja instalado e utilizado como um aplicativo no celular.
 
-A intenção é permitir que o painel seja utilizado no celular como um aplicativo, sem depender de uma implementação nativa para Android ou iOS nesta primeira etapa.
-
----
-
-## 🧪 Fase atual: Piloto
-
-**Status: MVP 0.1 — em teste**
-
-Esta versão não pretende ser definitiva.
-
-O objetivo do piloto é utilizar o Eixu no cotidiano antes de realizar grandes alterações no produto.
-
-Durante o período de teste, serão observados:
-
-- quais funcionalidades são realmente utilizadas;
-- quais partes do painel geram atrito;
-- quais informações são desnecessárias;
-- quais fluxos poderiam ser simplificados;
-- quais funcionalidades estão faltando;
-- como o painel se comporta em diferentes dispositivos;
-- como a experiência muda quando utilizada diariamente.
-
-As mudanças futuras serão baseadas principalmente nessa experiência de uso.
+Essa abordagem permite utilizar o Eixu sem uma implementação nativa específica para Android ou iOS nesta etapa do projeto.
 
 ---
 
-## 🗺️ Roadmap
+## 🧪 Desenvolvimento
 
-### 0.1 — MVP / Piloto
-- [x] Painel diário funcional
-- [x] Registro de atividades
-- [x] Persistência local
-- [x] Indicador de progresso
-- [x] Temporizador de foco
-- [x] Estrutura inicial de PWA
-- [ ] Teste de uso cotidiano
+O Eixu está sendo desenvolvido de forma iterativa, a partir do uso real do aplicativo.
 
-### 0.2 — Pós-piloto
-- [ ] Revisar funcionalidades com base no uso real
-- [ ] Corrigir problemas encontrados
-- [ ] Melhorar experiência mobile
-- [ ] Refinar interface
-- [ ] Revisar organização das seções
-- [ ] Avaliar novas funcionalidades
+A primeira versão foi disponibilizada como um MVP para ser utilizada no cotidiano antes de grandes alterações no projeto. A experiência de uso serve como base para identificar problemas, avaliar funcionalidades e orientar novas etapas de desenvolvimento.
 
-### Futuro
-As próximas etapas ainda não estão definidas.
-
-O desenvolvimento deverá acompanhar as necessidades descobertas durante o uso do MVP.
+O acompanhamento do desenvolvimento, incluindo o status atual, melhorias planejadas e questões em aberto, está disponível no **[GitHub Project](https://github.com/users/arielrodante/projects/1/views/1)**.
 
 ---
 
 ## 🌌 Identidade
 
-O universo conceitual do Eixu foi construído a partir de referências celestes relacionadas a:
+A identidade do Eixu nasce da relação entre **céu, tempo e orientação**.
 
-**Orientação · Referência · Caminho · Ciclos**
+A observação do céu é uma das formas mais antigas de acompanhar a passagem do tempo e encontrar referências para se orientar. Em diferentes tradições Tupi-Guarani, os astros também eram utilizados para construir calendários e sistemas de orientação.
 
-O projeto explora a ideia de que uma rotina pode ser compreendida como uma espécie de mapa: não é necessário controlar cada movimento, mas ter alguns pontos que ajudem a encontrar o próprio caminho.
+### ✦ Eixu, o enxame de abelhas
+
+Eixu é o nome dado a um **aglomerado de estrelas** associado à constelação indígena **Tuya / Tuivaé (Homem Velho)**.
+
+Em tradições Guarani e Tupi-Guarani, a história do Homem Velho trazia uma importante mensagem e sua observação estava relacionada à organização dos ciclos do ano e à orientação.
+
+**⏳ Passagem do tempo e ciclos da vida**
+
+O aparecimento de Eixu marcava momentos importantes do ciclo anual, incluindo, para os Guarani, o início de um novo ano e mudanças sazonais relacionadas às atividades agrícolas.
+
+No App Eixu, essa ideia se transforma em uma forma de **acompanhar a passagem do tempo e perceber os ciclos do próprio dia e da própria vida**.
+
+**🧭 Orientação, localização e norte**
+
+Os astros também serviam como referências para orientação e localização. A posição de Eixu no céu se relaciona à direção norte quando observado a partir do Brasil.
+
+No App Eixu, essa referência representa a ideia de **ter um norte, se localizar e encontrar o próprio caminho ao longo do dia**.
+
+**💭 Pensamentos e Ideias Iluminadas**
+
+Na representação Tupi-Guarani da constelação do **Homem Velho**, Eixu aparece como um enxame de abelhas sobre sua cabeça, formando parte de sua figura celeste.
+
+No App Eixu, essa imagem ganha uma interpretação própria: as estrelas sobre a cabeça do Homem Velho representam **pensamentos, referências e ideias iluminadas**.
+
+É daí que surge outra parte da identidade do app: **registrar nele aquilo que está na cabeça**, organizando pensamentos, compromissos, cuidados e tudo aquilo que faz parte do dia.
 
 ---
 
@@ -180,9 +115,11 @@ O Eixu parte de uma premissa simples:
 
 > **Organização não precisa significar produtividade constante.**
 
-Um dia também é composto por descanso, cuidado, movimento, compromissos, trabalho, estudo, lazer e pequenos atos de manutenção da vida.
+Um dia é feito de muitas coisas: descanso, cuidado, movimento, compromissos, trabalho, estudo, lazer e pequenos atos de manutenção da vida.
 
-O painel existe para tornar essas coisas visíveis e acompanháveis sem transformar o cotidiano em uma competição contra uma lista infinita de tarefas.
+O Eixu não existe para controlar cada momento, mas para **ajudar o usuário a se localizar no próprio dia, acompanhar seu ritmo e organizar aquilo que precisa estar em sua cabeça**.
+
+A proposta é tornar o cotidiano mais visível e acompanhável, sem transformar a organização em uma cobrança por produtividade.
 
 ---
 
